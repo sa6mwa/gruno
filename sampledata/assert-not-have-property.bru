@@ -1,0 +1,28 @@
+meta {
+  name: Not Have Property
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/accept
+  auth: none
+}
+
+docs {
+  # Not-Have Assertion
+  
+  Ensures `.not.have.property` works like Bruno/Chai.
+  The response should omit `voucher_no` while returning status 202 and a trace id.
+}
+
+assert {
+  res.status: eq 202
+}
+
+tests {
+  test("does not include voucher number", function() {
+    expect(res.body).to.not.have.property('voucher_no');
+    expect(res.body.status).to.equal('pending');
+  });
+}

@@ -1,0 +1,13 @@
+testdata/
+/.gocache
+\#*\#
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.log
+*.test
+*.pprof
+vendor/
+.env*

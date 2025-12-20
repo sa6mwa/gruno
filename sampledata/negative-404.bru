@@ -1,0 +1,18 @@
+meta {
+  name: Negative 404
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/not-found
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+tests {
+  test("404 expected", function() { expect(res.status).to.equal(404); });
+}

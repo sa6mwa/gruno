@@ -1,0 +1,37 @@
+meta {
+  name: All methods basic
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/get
+}
+
+post {
+  url: {{baseUrl}}/post
+}
+
+put {
+  url: {{baseUrl}}/put
+}
+
+patch {
+  url: {{baseUrl}}/patch
+}
+
+delete {
+  url: {{baseUrl}}/delete
+}
+
+options {
+  url: {{baseUrl}}/get
+}
+
+head {
+  url: {{baseUrl}}/get
+}
+
+body:test {
+  expect(res.status).to.be.within(200, 405);
+}

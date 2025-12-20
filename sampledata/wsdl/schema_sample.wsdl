@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="SchemaSample"
+    targetNamespace="http://example.com/schema"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:tns="http://example.com/schema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <types>
+    <xsd:schema targetNamespace="http://example.com/schema">
+      <xsd:element name="GetStatus">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="id" type="xsd:int" minOccurs="1"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="GetStatusResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="state">
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:enumeration value="OPEN"/>
+                  <xsd:enumeration value="CLOSED"/>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="message">
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="3"/>
+                  <xsd:maxLength value="10"/>
+                  <xsd:pattern value="[A-Za-z]+"/>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="code">
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:int">
+                  <xsd:minInclusive value="1"/>
+                  <xsd:maxInclusive value="10"/>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="items" minOccurs="2" maxOccurs="3">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="item">
+                    <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="\d+"/>
+                  </xsd:restriction>
+                </xsd:simpleType>
+              </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="payload">
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:base64Binary">
+                  <xsd:minLength value="8"/>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="details">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="inner">
+                    <xsd:simpleType>
+                      <xsd:restriction base="xsd:string">
+                        <xsd:pattern value="[A-Z]+"/>
+                      </xsd:restriction>
+                    </xsd:simpleType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </types>
+
+  <message name="GetStatusInput">
+    <part name="parameters" element="tns:GetStatus"/>
+  </message>
+  <message name="GetStatusOutput">
+    <part name="parameters" element="tns:GetStatusResponse"/>
+  </message>
+
+  <portType name="SchemaPortType">
+    <operation name="GetStatus">
+      <input message="tns:GetStatusInput"/>
+      <output message="tns:GetStatusOutput"/>
+    </operation>
+  </portType>
+
+  <binding name="SchemaBinding" type="tns:SchemaPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="GetStatus">
+      <soap:operation soapAction="http://example.com/schema/GetStatus"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="SchemaService">
+    <port name="SchemaPort" binding="tns:SchemaBinding">
+      <soap:address location="http://example.com/schema"/>
+    </port>
+  </service>
+</definitions>

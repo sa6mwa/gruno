@@ -1,0 +1,17 @@
+meta {
+  name: Search Repos
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/search/repositories?q=visa&order=desc&per_page=10
+  body: none
+  auth: none
+}
+
+params:query {
+  q: visa
+  order: desc
+  per_page: 10
+}

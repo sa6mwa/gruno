@@ -1,0 +1,24 @@
+meta {
+  name: JSON orders data
+  type: http
+  seq: 61
+}
+
+post {
+  url: {{baseUrl}}/anything
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body {
+  {
+    orderId: '{{orderId}}'
+    amount: '{{amount}}'
+  }
+}
+
+body:test {
+  expect(res.status).to.equal(200);
+}

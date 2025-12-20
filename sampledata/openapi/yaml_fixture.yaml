@@ -1,0 +1,45 @@
+openapi: 3.0.3
+info:
+  title: YAML Fixture
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:0
+paths:
+  /yaml/ping:
+    get:
+      summary: Ping endpoint
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [msg]
+                properties:
+                  msg:
+                    type: string
+  /yaml/echo:
+    post:
+      summary: Echo body
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [name]
+                properties:
+                  name:
+                    type: string

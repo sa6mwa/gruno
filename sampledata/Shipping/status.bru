@@ -1,0 +1,21 @@
+meta {
+  name: Shipment Status
+  type: http
+  seq: 7
+  tags: ["shipping"]
+  settings: { script: "../environments/prelude.js" }
+}
+
+get {
+  url: {{baseUrl}}/shipments/{{shipmentId}}/status
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+tests {
+  test("200 ok", function() { expect(res.status).to.equal(200); });
+  test("status present", function() { expect(res.body.status).to.exist; });
+}

@@ -1,0 +1,17 @@
+meta {
+  name: Tagged smoke test
+  type: http
+  seq: 70
+  tags: [
+    smoke
+    fast
+  ]
+}
+
+get {
+  url: {{baseUrl}}/status/200
+}
+
+body:test {
+  expect(res.status).to.equal(200);
+}

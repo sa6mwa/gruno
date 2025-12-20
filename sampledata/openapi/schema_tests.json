@@ -1,0 +1,90 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "Schema Tests", "version": "1.0.0"},
+  "servers": [{"url": "http://127.0.0.1:0"}],
+  "paths": {
+    "/schema/format": {
+      "get": {
+        "summary": "Format and constraint checks",
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["email", "uuid", "website", "birthday", "createdAt", "code", "count", "tags", "meta", "ipv4", "ipv6", "hostname", "cidr", "ipv6Cidr", "data"],
+                  "properties": {
+                    "email": {"type": "string", "format": "email"},
+                    "uuid": {"type": "string", "format": "uuid"},
+                    "website": {"type": "string", "format": "uri"},
+                    "birthday": {"type": "string", "format": "date"},
+                    "createdAt": {"type": "string", "format": "date-time"},
+                    "ipv4": {"type": "string", "format": "ipv4"},
+                    "ipv6": {"type": "string", "format": "ipv6"},
+                    "hostname": {"type": "string", "format": "hostname"},
+                    "cidr": {"type": "string", "format": "cidr"},
+                    "ipv6Cidr": {"type": "string", "format": "ipv6-cidr"},
+                    "data": {"type": "string", "format": "byte"},
+                    "code": {"type": "string", "pattern": "^[A-Z]{3}$"},
+                    "count": {"type": "integer", "minimum": 1, "maximum": 5},
+                    "tags": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+                    "meta": {"type": "object", "minProperties": 1}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schema/variant": {
+      "get": {
+        "summary": "OneOf payload",
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "discriminator": {
+                    "propertyName": "kind",
+                    "mapping": {
+                      "alpha": "#/components/schemas/Alpha",
+                      "beta": "#/components/schemas/Beta"
+                    }
+                  },
+                  "oneOf": [
+                    {"$ref": "#/components/schemas/Alpha"},
+                    {"$ref": "#/components/schemas/Beta"}
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Alpha": {
+        "type": "object",
+        "required": ["kind", "alpha"],
+        "properties": {
+          "kind": {"type": "string", "enum": ["alpha"]},
+          "alpha": {"type": "integer", "minimum": 0}
+        }
+      },
+      "Beta": {
+        "type": "object",
+        "required": ["kind", "beta"],
+        "properties": {
+          "kind": {"type": "string", "enum": ["beta"]},
+          "beta": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}
+}

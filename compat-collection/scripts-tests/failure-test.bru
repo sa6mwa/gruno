@@ -1,0 +1,13 @@
+meta {
+  name: Intentional failure
+  type: http
+  seq: 51
+}
+
+get {
+  url: {{baseUrl}}/status/418
+}
+
+body:test {
+  expect(res.status).to.equal(200); // should fail
+}

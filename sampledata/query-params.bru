@@ -1,0 +1,22 @@
+meta {
+  name: Query Params Echo
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/echo-query?term=widgets&limit=5
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+tests {
+  test("200 ok", function() { expect(res.status).to.equal(200); });
+  test("echo query", function() {
+    expect(res.body.term).to.equal('widgets');
+    expect(res.body.limit).to.equal(5);
+  });
+}

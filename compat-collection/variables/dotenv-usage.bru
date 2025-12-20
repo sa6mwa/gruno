@@ -1,0 +1,17 @@
+meta {
+  name: Dotenv usage
+  type: http
+  seq: 41
+}
+
+get {
+  url: {{baseUrl}}/anything
+}
+
+headers {
+  X-From-Process-Env: {{process.env.API_KEY}}
+}
+
+body:test {
+  expect(res.status).to.equal(200);
+}

@@ -1,0 +1,28 @@
+meta {
+  name: Gate Out
+  type: http
+  seq: 5
+  tags: ["shipping"]
+}
+
+post {
+  url: {{baseUrl}}/shipments/{{shipmentId}}/gate-out
+  body: json
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "container_id": "{{containerId}}"
+  }
+}
+
+tests {
+  test("200 ok", function() { expect(res.status).to.equal(200); });
+  test("status departed", function() { expect(res.body.status).to.equal('departed'); });
+}

@@ -1,0 +1,30 @@
+meta {
+  name: Unload Container
+  type: http
+  seq: 6
+  tags: ["shipping"]
+}
+
+post {
+  url: {{baseUrl}}/shipments/{{shipmentId}}/unload
+  body: json
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "container_id": "{{containerId}}",
+    "damages": ["dent"],
+    "counts": {"SKU1": 10, "SKU2": 5}
+  }
+}
+
+tests {
+  test("200 ok", function() { expect(res.status).to.equal(200); });
+  test("status unloaded", function() { expect(res.body.status).to.equal('unloaded'); });
+}

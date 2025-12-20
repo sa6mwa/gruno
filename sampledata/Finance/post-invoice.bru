@@ -1,0 +1,30 @@
+meta {
+  name: Post Invoice
+  type: http
+  seq: 6
+  tags: ["finance"]
+}
+
+post {
+  url: {{baseUrl}}/finance/invoices
+  body: json
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "invoice_id": "{{invoiceId}}",
+    "amount": 1250.50,
+    "currency": "USD"
+  }
+}
+
+tests {
+  test("201 created", function() { expect(res.status).to.equal(201); });
+  test("open status", function() { expect(res.body.status).to.equal('open'); });
+}

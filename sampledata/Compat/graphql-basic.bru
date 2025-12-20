@@ -1,0 +1,31 @@
+meta {
+  name: Compat GraphQL basic
+  type: http
+  seq: 46
+  tags: [gruno, graphql]
+}
+
+post {
+  url: {{graphqlUrl}}
+  body: graphql
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  {
+    country(code: "SE") {
+      code
+      name
+    }
+  }
+}
+
+tests {
+  test("graphql returns country", function() {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.country.code).to.equal('SE');
+  });
+}

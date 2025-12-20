@@ -1,0 +1,21 @@
+meta {
+  name: Compat Get
+  type: http
+  seq: 40
+  tags: [gruno, http, smoke]
+}
+
+get {
+  url: {{baseUrl}}/echo
+}
+
+headers {
+  Accept: application/json
+}
+
+tests {
+  test("status ok", function() {
+    expect(res.status).to.equal(200);
+    expect(res.body.method).to.equal('GET');
+  });
+}

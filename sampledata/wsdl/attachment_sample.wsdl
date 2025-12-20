@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="AttachmentSample"
+    targetNamespace="http://example.com/attachment"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:tns="http://example.com/attachment"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <types>
+    <xsd:schema targetNamespace="http://example.com/attachment">
+      <xsd:element name="Upload">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="data" type="xsd:base64Binary"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="UploadResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="Attachment" type="xsd:base64Binary"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </types>
+
+  <message name="UploadInput">
+    <part name="parameters" element="tns:Upload"/>
+  </message>
+  <message name="UploadOutput">
+    <part name="parameters" element="tns:UploadResponse"/>
+  </message>
+
+  <portType name="AttachmentPortType">
+    <operation name="Upload">
+      <input message="tns:UploadInput"/>
+      <output message="tns:UploadOutput"/>
+    </operation>
+  </portType>
+
+  <binding name="AttachmentBinding" type="tns:AttachmentPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="Upload">
+      <soap:operation soapAction="http://example.com/attachment/Upload"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="AttachmentService">
+    <port name="AttachmentPort" binding="tns:AttachmentBinding">
+      <soap:address location="http://example.com/attachment"/>
+    </port>
+  </service>
+</definitions>

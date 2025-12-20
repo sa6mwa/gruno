@@ -1,0 +1,32 @@
+meta {
+  name: Create User
+  type: http
+  seq: 1
+  tags: ["users", "smoke"]
+}
+
+post {
+  url: {{baseUrl}}/users
+  body: json
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "user_id": "{{userId}}",
+    "name": "Alice Example",
+    "email": "alice@example.test"
+  }
+}
+
+tests {
+  test("201 created", function() { expect(res.status).to.equal(201); });
+  test("echo id", function() {
+    expect(res.body.user_id).to.equal('u-1001');
+  });
+}

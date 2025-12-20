@@ -1,0 +1,40 @@
+meta {
+  name: Scripts Pre Post
+  type: http
+  seq: 13
+  settings: { script: "../environments/prelude.js" }
+}
+
+post {
+  url: {{baseUrl}}/scripted
+  body: json
+  auth: none
+}
+
+vars:pre-request {
+  dynamicKey: dyn-value
+}
+
+script:pre-request {
+  // add a header via script
+  req.headers["X-From-Pre"] = "dyn-value";
+}
+
+script:post-response {
+  // tag response body
+  res.body.tagged = true;
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+  Content-Type: application/json
+}
+
+body:json {
+  { "ping": "pong" }
+}
+
+tests {
+  test("200 ok", function() { expect(res.status).to.equal(200); });
+  test("post tag", function() { expect(res.body.tagged).to.equal(true); });
+}

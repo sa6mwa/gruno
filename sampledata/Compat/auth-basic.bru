@@ -1,0 +1,21 @@
+meta {
+  name: Compat Basic Auth
+  type: http
+  seq: 49
+  tags: [gruno, auth]
+}
+
+get {
+  url: {{baseUrl}}/basic-auth
+}
+
+headers {
+  Authorization: Basic ZGVtdXNlcjpkZW1wYXNz
+}
+
+tests {
+  test("basic auth ok", function() {
+    expect(res.status).to.equal(200);
+    expect(res.body.user).to.equal('demuser');
+  });
+}

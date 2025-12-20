@@ -1,0 +1,17 @@
+meta {
+  name: Bearer auth
+  type: http
+  seq: 31
+}
+
+get {
+  url: {{baseUrl}}/bearer
+}
+
+headers {
+  Authorization: Bearer {{bearerToken}}
+}
+
+body:test {
+  expect(res.status).to.equal(200);
+}

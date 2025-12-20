@@ -1,0 +1,21 @@
+meta {
+  name: Compat API Key Header
+  type: http
+  seq: 50
+  tags: [gruno, auth]
+}
+
+get {
+  url: {{baseUrl}}/headers
+}
+
+headers {
+  X-API-Key: demo-key
+}
+
+tests {
+  test("api key header seen", function() {
+    expect(res.status).to.equal(200);
+    expect(res.body.headers['x-api-key']).to.equal('demo-key');
+  });
+}

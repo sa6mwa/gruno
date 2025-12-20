@@ -1,0 +1,19 @@
+meta {
+  name: Disabled fields
+  type: http
+  seq: 80
+}
+
+get {
+  url: {{baseUrl}}/anything
+}
+
+headers {
+  Enabled-Header: enabled
+  ~Disabled-Header: disabled
+}
+
+body:test {
+  expect(res.status).to.equal(200);
+  expect(res.body.headers['Enabled-Header']).to.equal('enabled');
+}

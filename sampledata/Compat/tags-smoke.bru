@@ -1,0 +1,16 @@
+meta {
+  name: Compat Tags Smoke
+  type: http
+  seq: 53
+  tags: [smoke, gruno]
+}
+
+get {
+  url: {{baseUrl}}/echo
+}
+
+tests {
+  test("runs with smoke tag", function() {
+    expect(res.status).to.equal(200);
+  });
+}

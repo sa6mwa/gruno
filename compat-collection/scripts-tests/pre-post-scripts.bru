@@ -1,0 +1,23 @@
+meta {
+  name: Pre and post scripts
+  type: http
+  seq: 50
+}
+
+get {
+  url: {{baseUrl}}/anything
+}
+
+script:pre-request {
+  req.setHeader('X-Pre-Request', 'yes');
+  bru.setVar('preSet', 'ok');
+}
+
+script:post-response {
+  bru.setEnvVar('lastUrl', res.body.url);
+}
+
+body:test {
+  expect(res.status).to.equal(200);
+  expect(res.body.headers['X-Pre-Request']).to.equal('yes');
+}

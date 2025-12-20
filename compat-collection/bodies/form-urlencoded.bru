@@ -1,0 +1,23 @@
+meta {
+  name: Form urlencoded body
+  type: http
+  seq: 23
+}
+
+post {
+  url: {{baseUrl}}/post
+}
+
+headers {
+  Content-Type: application/x-www-form-urlencoded
+}
+
+body:form-urlencoded {
+  username: john
+  password: secret
+  ~disabledField: should-not-be-sent
+}
+
+body:test {
+  expect(res.status).to.equal(200);
+}

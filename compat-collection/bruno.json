@@ -1,0 +1,16 @@
+{
+  "name": "Gru / Bruno CLI Compat Suite",
+  "type": "collection",
+  "version": "1.0.0",
+  "scripts": {
+    "moduleWhitelist": [
+      "fs",
+      "path",
+      "buffer"
+    ],
+    "filesystemAccess": {
+      "allow": true
+    },
+    "flow": "sandwich"
+  }
+}

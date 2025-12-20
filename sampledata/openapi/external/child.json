@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "required": ["kind", "gamma"],
+  "properties": {
+    "kind": {"type": "string", "enum": ["gamma"]},
+    "gamma": {"type": "string", "pattern": "^[a-z]{3}$"}
+  }
+}

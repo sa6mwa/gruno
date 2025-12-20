@@ -1,0 +1,37 @@
+meta {
+  name: Trace ID Propagation
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/jobs/submit
+  body: json
+  auth: none
+}
+
+headers {
+  X-Trace-ID: 550e8400-e29b-41d4-a716-446655440000
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "job_id": "trace-propagation",
+    "payload": { "foo": "bar" }
+  }
+}
+
+assert {
+  res.status: eq 400
+}
+
+tests {
+  test("trace id echoed in header and body", function() {
+    expect(res.headers['x-trace-id']).to.equal('550e8400-e29b-41d4-a716-446655440000');
+    expect(res.body.trace_id).to.equal('550e8400-e29b-41d4-a716-446655440000');
+  });
+  test("trace id regex", function() {
+    expect(res.headers['x-trace-id']).to.match(/[0-9a-f-]{36}/i);
+  });
+}

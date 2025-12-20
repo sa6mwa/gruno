@@ -1,0 +1,13 @@
+meta {
+  name: Invalid URL
+  type: http
+  seq: 81
+}
+
+get {
+  url: http://nonexistent.invalid.localhost/
+}
+
+body:test {
+  // This will likely error at transport level; useful to compare error handling.
+}

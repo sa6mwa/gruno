@@ -1,0 +1,39 @@
+meta {
+  name: Trace ID Generation
+  type: http
+  seq: 11.1
+}
+
+post {
+  url: {{baseUrl}}/jobs/submit
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "job_id": "trace-generate",
+    "payload": { "foo": "bar" }
+  }
+}
+
+assert {
+  res.status: eq 400
+}
+
+tests {
+  test("trace id header present", function() {
+    expect(res.headers['x-trace-id']).to.match(/[0-9a-f-]{36}/i);
+  });
+  test("trace id in body matches header", function() {
+    expect(res.body.trace_id).to.equal(res.headers['x-trace-id']);
+  });
+  test("Trace ID follows UUID v4 format", function() {
+    const uuidV4Regex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    expect(res.body.trace_id).to.match(uuidV4Regex);
+  });
+}

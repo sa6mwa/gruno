@@ -1,0 +1,19 @@
+meta {
+  name: Delete User
+  type: http
+  seq: 4
+  tags: ["users"]
+}
+
+delete {
+  url: {{baseUrl}}/users/{{userId}}
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+tests {
+  test("204 no content", function() { expect(res.status).to.equal(204); });
+}

@@ -1,0 +1,26 @@
+meta {
+  name: Compat Text Body
+  type: http
+  seq: 42
+  tags: [gruno, bodies]
+}
+
+post {
+  url: {{baseUrl}}/echo
+  body: text
+}
+
+headers {
+  Content-Type: text/plain
+}
+
+body:text {
+  Plain text payload
+}
+
+tests {
+  test("echo text", function() {
+    expect(res.status).to.equal(200);
+    expect(res.body.text).to.include('Plain text');
+  });
+}

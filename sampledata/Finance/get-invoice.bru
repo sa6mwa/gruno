@@ -1,0 +1,20 @@
+meta {
+  name: Get Invoice
+  type: http
+  seq: 8
+  tags: ["finance"]
+}
+
+get {
+  url: {{baseUrl}}/finance/invoices/{{invoiceId}}
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+tests {
+  test("200 ok", function() { expect(res.status).to.equal(200); });
+  test("status set", function() { expect(res.body.status).to.exist; });
+}

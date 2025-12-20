@@ -1,0 +1,21 @@
+meta {
+  name: Text body example
+  type: http
+  seq: 21
+}
+
+post {
+  url: {{baseUrl}}/post
+}
+
+headers {
+  Content-Type: text/plain
+}
+
+body:text {
+  This is a plain text body
+}
+
+body:test {
+  expect(res.status).to.equal(200);
+}

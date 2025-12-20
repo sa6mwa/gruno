@@ -1,0 +1,27 @@
+meta {
+  name: Regex Match Message
+  type: http
+  seq: 10.1
+}
+
+get {
+  url: {{baseUrl}}/forbidden-sample
+  auth: none
+}
+
+docs {
+  # Regex Match on Message
+  
+  Validates that `res.body.message.match()` works and returns expected text.
+}
+
+assert {
+  res.status: eq 403
+}
+
+tests {
+  test("message matches regex", function() {
+    var m = res.body.message.match(/operation/i);
+    expect(m[0].toLowerCase()).to.equal('operation');
+  });
+}

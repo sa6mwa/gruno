@@ -1,0 +1,29 @@
+meta {
+  name: Compat Post JSON
+  type: http
+  seq: 41
+  tags: [gruno, http]
+}
+
+post {
+  url: {{baseUrl}}/echo
+  body: json
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "message": "hello",
+    "count": 2
+  }
+}
+
+tests {
+  test("echoes json", function() {
+    expect(res.status).to.equal(200);
+    expect(res.body.json.message).to.equal('hello');
+  });
+}

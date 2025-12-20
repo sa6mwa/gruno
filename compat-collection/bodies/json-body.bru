@@ -1,0 +1,25 @@
+meta {
+  name: JSON body example
+  type: http
+  seq: 20
+}
+
+post {
+  url: https://reqres.in/api/users
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body {
+  {
+    name: 'John Doe'
+    job: 'Developer'
+  }
+}
+
+body:test {
+  expect(res.status).to.equal(201);
+  expect(res.body.name).to.equal('John Doe');
+}

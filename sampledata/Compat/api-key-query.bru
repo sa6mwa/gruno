@@ -1,0 +1,17 @@
+meta {
+  name: Compat API Key Query
+  type: http
+  seq: 51
+  tags: [gruno, auth]
+}
+
+get {
+  url: {{baseUrl}}/anything?api_key=demo-key
+}
+
+tests {
+  test("api key query seen", function() {
+    expect(res.status).to.equal(200);
+    expect(res.body.args.api_key).to.equal('demo-key');
+  });
+}

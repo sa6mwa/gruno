@@ -1,0 +1,29 @@
+meta {
+  name: Pay Invoice
+  type: http
+  seq: 7
+  tags: ["finance"]
+}
+
+post {
+  url: {{baseUrl}}/finance/invoices/{{invoiceId}}/pay
+  body: json
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "method": "card",
+    "amount": 1250.50
+  }
+}
+
+tests {
+  test("200 ok", function() { expect(res.status).to.equal(200); });
+  test("paid status", function() { expect(res.body.status).to.equal('paid'); });
+}

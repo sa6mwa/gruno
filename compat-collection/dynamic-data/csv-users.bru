@@ -1,0 +1,24 @@
+meta {
+  name: CSV users data
+  type: http
+  seq: 60
+}
+
+post {
+  url: https://reqres.in/api/users
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body {
+  {
+    name: '{{name}}'
+    job: '{{job}}'
+  }
+}
+
+body:test {
+  expect(res.status).to.equal(201);
+}

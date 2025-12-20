@@ -1,0 +1,24 @@
+meta {
+  name: XML body example
+  type: http
+  seq: 22
+}
+
+post {
+  url: {{baseUrl}}/post
+}
+
+headers {
+  Content-Type: application/xml
+}
+
+body:xml {
+  <note>
+    <to>John</to>
+    <from>Bruno</from>
+  </note>
+}
+
+body:test {
+  expect(res.status).to.equal(200);
+}

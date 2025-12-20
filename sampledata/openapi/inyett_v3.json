@@ -1,0 +1,5622 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Inyett Automation",
+    "description": "<h3>How to connect</h3>\n                    <p>Read more about our API and how to connect on <a href='https://docs.inyett.com/home' target='_blank'>docs.inyett.com</a></p> ",
+    "version": "3.0"
+  },
+  "paths": {
+    "/3/{profileCountry}/control/companies/{country}/{orgNr}/main-rating": {
+      "get": {
+        "tags": [
+          "Inyett Company Control"
+        ],
+        "summary": "Main rating a company\r\nRequires controlbasic or controlbasicplus",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "showAllChecks",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "languageCode",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/LanguageCode"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rating"
+                },
+                "example": {"level":"red","remarks":{"level":"red","indications":[{"key":"CCCC","name":"Foo","description":"Lorem ipsum dolor sit amet","status":"IsOk"},{"key":"DDDD","name":"Bar","description":"Lorem ipsum dolor sit amet","status":"HasIndication"}]},"fraud":{"level":"red","indications":[{"key":"GGGG","name":"Foo","description":"Lorem ipsum dolor sit amet","status":"IsOk"},{"key":"HHHH","name":"Bar","description":"Lorem ipsum dolor sit amet","status":"HasIndication"}]},"finance":{"level":"yellow","indications":[{"key":"EEEE","name":"Foo","description":"Lorem ipsum dolor sit amet","status":"IsOk"},{"key":"FFFF","name":"Bar","description":"Lorem ipsum dolor sit amet","status":"HasIndication"}]},"debtRating":{"level":"green","indications":[{"key":"JJJJ","name":"Foo","description":"Lorem ipsum dolor sit amet","status":"IsOk"},{"key":"KKKK","name":"Bar","description":"Lorem ipsum dolor sit amet","status":"HasIndication"}]},"observations":{"level":"green","indications":[{"key":"AAAA","name":"Foo","description":"Lorem ipsum dolor sit amet","status":"IsOk"},{"key":"BBBB","name":"Bar","description":"Lorem ipsum dolor sit amet","status":"HasIndication"}]}}
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/company-data/companies/{country}/{orgNr}/accounts": {
+      "get": {
+        "tags": [
+          "Inyett Company Data"
+        ],
+        "summary": "Accounts for the company",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Account"
+                  }
+                },
+                "example": [{"number":"4105078","type":"bg","active":true},{"number":"7584527","type":"pg","active":false}]
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/company-data/companies/{country}/{orgNr}/addresses": {
+      "get": {
+        "tags": [
+          "Inyett Company Data"
+        ],
+        "summary": "Post, Registered and Visiting addresses for the company",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Addresses"
+                },
+                "example": {"registeredAddress":{"community":"HELSINGBORG","county":"SKÅNE","address":"Redaregatan 50","zipCode":"25236","town":"HELSINGBORG"},"postAddress":{"community":"HELSINGBORG","county":"SKÅNE","address":"Redaregatan 50","zipCode":"25236","town":"Helsingborg"},"visitingAddress":{"community":"HELSINGBORG","county":"SKÅNE","address":"Redaregatan 50","zipCode":"25236","town":"Helsingborg"}}
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/company-data/companies/{country}/{orgNr}/beneficial-owner": {
+      "get": {
+        "tags": [
+          "Inyett Company Data"
+        ],
+        "summary": "Beneficial owners of the company",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BeneficialOwner"
+                  }
+                },
+                "example": [{"socialSecurityNumber":"1122334455","lastName":"Bar","firstName":"Foo","countryOfResidence":"SE","citizenShip":"SE","descriptionSE":"Personen är styrelseledamot eller motsvarande befattningshavare"}]
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/company-data/companies/{country}/{orgNr}/directors": {
+      "get": {
+        "tags": [
+          "Inyett Company Data"
+        ],
+        "summary": "Directors for the company",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Director"
+                  }
+                },
+                "example": [{"firstName":"Foo","givenName":"Foo","middleName":"","lastName":"Bar","name":"Bar, Foo","socialSecurityNumber":"123456789101","active":true,"roleCode":"3","role":"Extern verkställande direktör","fromDate":"2024-01-01T00:00:00","toDate":"0001-01-01T00:00:00"},{"name":"Bar","active":true,"roleCode":"8","role":"Revisor","fromDate":"2024-01-01T00:00:00","toDate":"0001-01-01T00:00:00"}]
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/company-data/companies/{country}/{orgNr}/financial-key-results": {
+      "get": {
+        "tags": [
+          "Inyett Company Data"
+        ],
+        "summary": "Financial key results for the company",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FinancialKeyResult"
+                  }
+                },
+                "example": [{"fromDate":"2023-01-01T00:00:00","toDate":"2023-12-31T00:00:00","grossProfitMargin":93.9,"profitMargin":27.8,"riskBuffer":23.7,"returnOnCapital":37.8,"rateOfReturnTimes":695.9,"returnOnWorkingCapital":33.8,"returnOnTotalCapital":23.7,"quickRatio":294.4,"workingCapital":38577,"solidity":62.7,"debtEquityRatio":0.1,"degreeOfDebt":0.5,"inventoryTurnover":0,"capitalTurnover":0,"turnoverPerEmployee":1577}]
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/company-data/companies/{country}/{orgNr}/group/financial-key-results": {
+      "get": {
+        "tags": [
+          "Inyett Company Data"
+        ],
+        "summary": "Financial key results for the company on group level",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FinancialKeyResult"
+                  }
+                },
+                "example": [{"fromDate":"2023-01-01T00:00:00","toDate":"2023-12-31T00:00:00","grossProfitMargin":93.9,"profitMargin":27.8,"riskBuffer":23.7,"returnOnCapital":37.8,"rateOfReturnTimes":695.9,"returnOnWorkingCapital":33.8,"returnOnTotalCapital":23.7,"quickRatio":294.4,"workingCapital":38577,"solidity":62.7,"debtEquityRatio":0.1,"degreeOfDebt":0.5,"inventoryTurnover":0,"capitalTurnover":0,"turnoverPerEmployee":1577}]
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/company-data/companies/{country}/{orgNr}/financial-statements": {
+      "get": {
+        "tags": [
+          "Inyett Company Data"
+        ],
+        "summary": "Financial statements for the company",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FinancialStatements"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/company-data/companies/{country}/{orgNr}/group/financial-statements": {
+      "get": {
+        "tags": [
+          "Inyett Company Data"
+        ],
+        "summary": "Financial statements for the company on group level",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FinancialStatements"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/company-data/companies/{country}/{orgNr}/group-structure": {
+      "get": {
+        "tags": [
+          "Inyett Company Data"
+        ],
+        "summary": "Group structure of a company",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupStructure"
+                  }
+                },
+                "example": [{"orgNumber":"1234567891","companyName":"Foo","countryCode":"SE","countryName":"SWEDEN","ownedPercent":"100","closestGroupMotherOrgNumber":"","groupMotherOrgNumber":"1234567891","level":1,"dateUpdated":"2023-11-30T16:26:41.543"},{"orgNumber":"1122334455","companyName":"Bar","countryCode":"SE","countryName":"SWEDEN","ownedPercent":"100","closestGroupMotherOrgNumber":"1234567891","groupMotherOrgNumber":"1234567891","level":2,"dateUpdated":"2023-11-30T16:26:41.543"}]
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/company-data/companies/{country}/{orgNr}/info": {
+      "get": {
+        "tags": [
+          "Inyett Company Data"
+        ],
+        "summary": "Basic information of a company",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/DataCountry"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Info"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/company-data/companies/{country}/{orgNr}/owner": {
+      "get": {
+        "tags": [
+          "Inyett Company Data"
+        ],
+        "summary": "Owners of the company",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Owner"
+                  }
+                },
+                "example": [{"identificationNumber":"1122334455","name":"FooBar","ownerType":"Company","numberOfShares":10,"ownerShares":9,"ownershipStake":0.9,"dateUpdated":"2024-07-08T07:37:05.4075025+00:00"},{"identificationNumber":"112233445566","name":"Bar, Foo","ownerType":"Person","numberOfShares":10,"ownerShares":1,"ownershipStake":0.1,"dateUpdated":"2024-07-08T07:37:05.4075025+00:00"}]
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/company-data/companies/{country}/{orgNr}/general-payroll-tax": {
+      "get": {
+        "tags": [
+          "Inyett Company Data"
+        ],
+        "summary": "General payroll tax for the company",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/DataCountry"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PayrollTax"
+                  }
+                },
+                "example": [{"payrollDate":"2024-01-01T00:00:00","taxAmount":1000,"registerDate":"2024-01-31T00:00:00"}]
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/company-data/companies/{country}/{orgNr}/registration-names": {
+      "get": {
+        "tags": [
+          "Inyett Company Data"
+        ],
+        "summary": "Registration names for the company",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RegName"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/company-data/companies/{country}/{orgNr}/sign": {
+      "get": {
+        "tags": [
+          "Inyett Company Data"
+        ],
+        "summary": "Signs for the company",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sign"
+                  }
+                },
+                "example": [{"text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in magna at sapien pretium commodo ut ut turpis. Etiam non lacus nec mauris egestas fringilla non eget elit. Nullam id rhoncus sem, quis scelerisque elit.","dateUpdated":"2024-01-01T00:00:00"}]
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/company-data/companies/{country}/{orgNr}/units": {
+      "get": {
+        "tags": [
+          "Inyett Company Data"
+        ],
+        "summary": "Units for the company",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "orgNr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Unit"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/debts-and-credits/companies": {
+      "post": {
+        "tags": [
+          "Inyett Company Debts & Credits"
+        ],
+        "summary": "Debts and Credits for a Company (Inquiry copies will be generated if inquiries are made about a sole proprietorship)\r\nRequires debtsandcreditsplus",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Financial.Company"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Financial.Company"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Financial.Company"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DebtsAndCredits"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/debts/companies": {
+      "post": {
+        "tags": [
+          "Inyett Company Debts & Credits"
+        ],
+        "summary": "Debts for a Company (Inquiry copies will be generated if inquiries are made about a sole proprietorship)\r\nRequires debtsandcreditsbasic",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Financial.Company"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Financial.Company"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Financial.Company"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Debts"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/find/companies": {
+      "get": {
+        "tags": [
+          "Inyett Company Find"
+        ],
+        "summary": "Search for company using name or company id",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "description": "Country se or no",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Search for name or organisation number/company id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Page size of the result",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResult[Company]"
+                },
+                "example": {"data":[{"orgNumber":"5522334455","name":"Foo AB","statusDescription":"Aktivt","statusCode":"100","statusName":"Aktivt","legalGroup":"AB","legalGroupText":"Privat aktiebolag","town":"HELSINGBORG","address":"Redaregatan 50","coAddress":"","zipCode":"25236","email":"","webAddress":"","registrationDate":"2009-04-06T00:00:00","taxRegistered":true,"findScore":100},{"orgNumber":"5566778899","name":"Bar AB","statusDescription":"Aktivt","statusCode":"100","statusName":"Aktivt","legalGroup":"AB","legalGroupText":"Privat aktiebolag","town":"HELSINGBORG","address":"Redaregatan 51","coAddress":"","zipCode":"25236","email":"","webAddress":"","registrationDate":"2009-04-06T00:00:00","taxRegistered":true,"findScore":76.660706}],"total":2}
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/insights/relations": {
+      "get": {
+        "tags": [
+          "Inyett Company Insights"
+        ],
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "relationTagId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Fetch",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Offset",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CompanyRelation"
+                  }
+                },
+                "example": [{"id":"41c94c1f-ef91-4c36-bf53-2add5c0f9c09","relationTagId":"b65fdfa5-a301-4a51-b527-024c5b626405","relationName":"FooBar","orgNr":"5567804348"}]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/insights/relation-tags": {
+      "get": {
+        "tags": [
+          "Inyett Company Insights"
+        ],
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RelationTag"
+                  }
+                },
+                "example": [{"id":"b65fdfa5-a301-4a51-b527-024c5b626405","name":"FooBar"}]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/monitor/portfolios": {
+      "get": {
+        "tags": [
+          "Inyett Company Monitor"
+        ],
+        "summary": "Get all portfolios",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "Fetch",
+            "in": "query",
+            "description": "Required if Offset is set",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Offset",
+            "in": "query",
+            "description": "Required if Fetch is set",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "portfolioType",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/PortfolioType"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchOffsetResult[Portfolio]"
+                },
+                "example": {"data":[{"id":1,"type":"Auto","name":"Foo","createdDate":"2024-01-01T00:00:00","updatedDate":"2024-01-01T00:00:00","enabled":true},{"id":2,"type":"Manual","name":"Bar","createdDate":"2024-01-01T00:00:00","updatedDate":"2024-01-01T00:00:00","enabled":false}],"total":2}
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Inyett Company Monitor"
+        ],
+        "summary": "Create new portfolio.",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePortfolio"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePortfolio"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePortfolio"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Portfolio"
+                },
+                "example": {"id":1,"type":"Auto","name":"Foo","createdDate":"2024-01-01T00:00:00","updatedDate":"2024-01-01T00:00:00","enabled":true}
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Portfolio"
+                },
+                "example": {"id":1,"type":"Auto","name":"Foo","createdDate":"2024-01-01T00:00:00","updatedDate":"2024-01-01T00:00:00","enabled":true}
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Portfolio"
+                },
+                "example": {"id":1,"type":"Auto","name":"Foo","createdDate":"2024-01-01T00:00:00","updatedDate":"2024-01-01T00:00:00","enabled":true}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/monitor/portfolios/{id}": {
+      "get": {
+        "tags": [
+          "Inyett Company Monitor"
+        ],
+        "summary": "Get a specific portfolio",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Portfolio"
+                },
+                "example": {"id":1,"type":"Auto","name":"Foo","createdDate":"2024-01-01T00:00:00","updatedDate":"2024-01-01T00:00:00","enabled":true}
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Inyett Company Monitor"
+        ],
+        "summary": "Update portfolio",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Portfolio id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePortfolio"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePortfolio"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePortfolio"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Inyett Company Monitor"
+        ],
+        "summary": "Deletes a portfolio",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/monitor/portfolios/{id}/changes": {
+      "get": {
+        "tags": [
+          "Inyett Company Monitor"
+        ],
+        "summary": "Get changes in portfolio",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "FromDate",
+            "in": "query",
+            "description": "Must be less than ToDate",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "ToDate",
+            "in": "query",
+            "description": "Must be greater than FromDate",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "fetch",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchOffsetResult[Change]"
+                },
+                "example": {"data":[{"id":1,"portfolioId":1,"countryCode":"SE","orgNr":"5567804348","type":"AAAA","isBaseline":true,"timestamp":"2024-01-01T00:00:00","status":"UnProcessed"},{"id":2,"portfolioId":1,"countryCode":"NO","orgNr":"916778058","type":"BBBB","isBaseline":false,"timestamp":"2024-01-01T00:00:00","status":"UnProcessed"}],"total":2}
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/monitor/portfolios/{id}/changes/{changeId}": {
+      "put": {
+        "tags": [
+          "Inyett Company Monitor"
+        ],
+        "summary": "Update change status",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "changeId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeStatus"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeStatus"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeStatus"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/monitor/portfolios/{id}/companies": {
+      "get": {
+        "tags": [
+          "Inyett Company Monitor"
+        ],
+        "summary": "Get companies in portfolio",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "fetch",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchOffsetResult[Company]"
+                },
+                "example": {"data":[{"id":1,"name":"Foo","legalGroup":"AB","orgNr":"5567804348","countryCode":"SE","createdDate":"2024-01-01T00:00:00"},{"id":2,"name":"Bar","legalGroup":"AS","orgNr":"916778058","countryCode":"NO","createdDate":"2024-01-01T00:00:00"}],"total":2}
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Inyett Company Monitor"
+        ],
+        "summary": "Create a company in a portfolio",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCompany"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCompany"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCompany"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Inyett Company Monitor"
+        ],
+        "summary": "Delete a company from a portfolio",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "portfolioCompanyId",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/monitor/portfolios/{id}/settings": {
+      "get": {
+        "tags": [
+          "Inyett Company Monitor"
+        ],
+        "summary": "Get all settings for a portfolio",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PortfolioSetting"
+                  }
+                },
+                "example": [{"enabled":true,"type":"DPNC","category":"CompanyInfo","scopes":["SE","NO","FI","DK"]},{"enabled":false,"type":"ABCD","category":"Operation","scopes":["SE"]}]
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Inyett Company Monitor"
+        ],
+        "summary": "Update setting. Options for this portfolio can be found in the portfolio options",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Portfolio id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "changeType",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ChangeType"
+            }
+          },
+          {
+            "name": "enabled",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/payment-control/batches": {
+      "post": {
+        "tags": [
+          "Inyett Payment Control"
+        ],
+        "summary": "Create batch",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "Country for profile",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "requestBody": {
+          "description": "Batch",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchCreateBody"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchCreateBody"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchCreateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/payment-control/batches/{externalBatchId}": {
+      "delete": {
+        "tags": [
+          "Inyett Payment Control"
+        ],
+        "summary": "Delete an analyzed batch. The batch and its subsets will be hidden for future analysis",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "Country for profile",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "externalBatchId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/3/{profileCountry}/payment-control/batches/{externalBatchId}/warnings": {
+      "get": {
+        "tags": [
+          "Inyett Payment Control"
+        ],
+        "summary": "Get warnings for a external batch.",
+        "parameters": [
+          {
+            "name": "profileCountry",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Country"
+            }
+          },
+          {
+            "name": "externalBatchId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "languageCode",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/LanguageCode"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "header",
+            "description": "App id"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyzeResult"
+                },
+                "example": {"analyzeStatus":"Done","batchUrl":"https://example.com","warnings":[{"id":12345,"transactionExternalId":"123456","type":{"type":"FooBar","category":"Transaction"},"name":"Foo","description":"Lorem ipsum dolor sit amet","warningUrl":"https://example.com","status":"CompletedWithAction"}]}
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyzeResult"
+                },
+                "example": {"analyzeStatus":"Done","batchUrl":"https://example.com","warnings":[{"id":12345,"transactionExternalId":"123456","type":{"type":"FooBar","category":"Transaction"},"name":"Foo","description":"Lorem ipsum dolor sit amet","warningUrl":"https://example.com","status":"CompletedWithAction"}]}
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyzeResult"
+                },
+                "example": {"analyzeStatus":"Done","batchUrl":"https://example.com","warnings":[{"id":12345,"transactionExternalId":"123456","type":{"type":"FooBar","category":"Transaction"},"name":"Foo","description":"Lorem ipsum dolor sit amet","warningUrl":"https://example.com","status":"CompletedWithAction"}]}
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Account": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "active": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Address": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "town": {
+            "type": "string",
+            "nullable": true
+          },
+          "coAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "community": {
+            "type": "string",
+            "nullable": true
+          },
+          "county": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Addresses": {
+        "type": "object",
+        "properties": {
+          "registeredAddress": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "postAddress": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "visitingAddress": {
+            "$ref": "#/components/schemas/Address"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AnalyzeResult": {
+        "type": "object",
+        "properties": {
+          "analyzeStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "batchUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warning"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BalanceSheet": {
+        "type": "object",
+        "properties": {
+          "capExpResDev": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "patents": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "goodwill": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "otherIntangibleAssets": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totIntangiableAssets": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "landBuildings": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "plantMachinery": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "equipmentToolsFixFit": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "otherMatDepreciation": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "otherTangAssNonDep": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totTangiableAssets": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "groupShare": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "accReceivableGroupInterestGroup": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "loanCoOwners": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "otherFinAssets": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totFinancialAssets": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totFixedAssets": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "workOnContract": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totInventories": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "accReceivableTrade": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "accReceivableGroup": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "otherAccReceivable": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "cashAndBankBalances": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "otherCurrentAss": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totTurnoverAssets": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totAssets": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "issuedShareCapital": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "sharePremiumReserve": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "revaluationReserve": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "otherStockholderEquity": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "profitLossBroughtForward": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "contributionGroup": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "contributionShareholders": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "netProfitLoss": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "uity": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "untaxedReserves": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "minorityInterests": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "provisions": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ltBondLoan": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ltLiabCreditInst": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ltLiabGroupAssComp": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ltOtherLiab": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ltTotDebts": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "stLiabCreditInst": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "stAccountsPayableTrade": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "stLiabGroupAssComp": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "stOtherLiab": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totalEquityAndLiab": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BatchCreateBody": {
+        "required": [
+          "externalId"
+        ],
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "debtorAccount": {
+            "type": "string",
+            "nullable": true
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BatchTransactionCreateBody"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BatchTransactionCreateBody": {
+        "required": [
+          "amount",
+          "creditorAccount",
+          "creditorAccountType",
+          "currency",
+          "externalId",
+          "paymentDate"
+        ],
+        "type": "object",
+        "properties": {
+          "paymentDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Decimal with . separator",
+            "format": "double"
+          },
+          "currency": {
+            "minLength": 1,
+            "type": "string",
+            "description": "3 letter currency format. SEK, NOK etc"
+          },
+          "creditorOrgNr": {
+            "type": "string",
+            "nullable": true
+          },
+          "creditorName": {
+            "maxLength": 200,
+            "type": "string",
+            "description": "The name of the creditor. Maximum length is 200 characters.",
+            "nullable": true
+          },
+          "ocr": {
+            "type": "string",
+            "description": "OCR number",
+            "nullable": true
+          },
+          "verNr": {
+            "type": "string",
+            "nullable": true
+          },
+          "invoiceNr": {
+            "type": "string",
+            "nullable": true
+          },
+          "creditorAccountType": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Account type (PGNR,BGNR, BANK, IBAN, CASH )"
+          },
+          "creditorAccount": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Account number"
+          },
+          "externalId": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BeneficialOwner": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "socialSecurityNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryOfResidence": {
+            "type": "string",
+            "nullable": true
+          },
+          "citizenShip": {
+            "type": "string",
+            "nullable": true
+          },
+          "descriptionSE": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Change": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "portfolioId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "orgNr": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "isBaseline": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ChangeStatus"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ChangeStatus": {
+        "enum": [
+          "UnProcessed",
+          "InProgress",
+          "Completed",
+          "CompletedWithAction"
+        ],
+        "type": "string"
+      },
+      "ChangeType": {
+        "enum": [
+          "DBIC",
+          "DCNC",
+          "DPAC",
+          "DRAC",
+          "DVIC",
+          "DPNC",
+          "DUNC",
+          "DVAC",
+          "DCSC",
+          "DICC",
+          "DDIC",
+          "DNEC",
+          "DREC",
+          "CFTC",
+          "DGNN",
+          "CUAC",
+          "DDNC",
+          "DBNC",
+          "DSIC",
+          "DFSC",
+          "DGFS",
+          "DONC",
+          "DGSN",
+          "CMRC",
+          "CDEC",
+          "DPRC",
+          "CRAC",
+          "CSUS",
+          "CSUK",
+          "CSEU",
+          "CFRC",
+          "CMRD"
+        ],
+        "type": "string"
+      },
+      "CheckIndicationStatus": {
+        "enum": [
+          "HasIndication",
+          "IsOk"
+        ],
+        "type": "string"
+      },
+      "CompanyRelation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "relationTagId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "relationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "orgNr": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Country": {
+        "enum": [
+          "SE",
+          "NO"
+        ],
+        "type": "string"
+      },
+      "CreateCompany": {
+        "type": "object",
+        "properties": {
+          "orgNr": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePortfolio": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/PortfolioType"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Credits": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "ratingText": {
+            "type": "string",
+            "nullable": true
+          },
+          "riskPrognosis": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "realEstateCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "buildingsCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "assessedValueSum": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "representativeChecks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DataCountry": {
+        "enum": [
+          "SE",
+          "NO",
+          "DK",
+          "FI"
+        ],
+        "type": "string"
+      },
+      "Debts": {
+        "type": "object",
+        "properties": {
+          "paymentApplicationsCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "applicationsSum": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "notificationsCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "notificationsSum": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "notificationsWithAmalCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "notificationsWithAmalSum": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "notificationsWithEmalCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "notificationsWithEmalSum": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "debtSum": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "latestDebtDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "debtsWithAmalCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "debtsWithAmalSum": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "debtsWithEmalCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "debtsWithEmalSum": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "distraintAttempt": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "notificationsWithAmalLatestYearCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "notificationsWithEmalLatestYearCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "privateClaimsApplications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrivateClaimApplication"
+            },
+            "nullable": true
+          },
+          "publicClaims": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicClaim"
+            },
+            "nullable": true
+          },
+          "latestYearPublicClaims": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicClaim"
+            },
+            "nullable": true
+          },
+          "privateClaims": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrivateClaim"
+            },
+            "nullable": true
+          },
+          "latestYearPrivateClaims": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrivateClaim"
+            },
+            "nullable": true
+          },
+          "historicalDebtDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HistoricalDebtDetail"
+            },
+            "nullable": true
+          },
+          "distraintRepossessionClaims": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DistraintRepossessionClaim"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DebtsAndCredits": {
+        "type": "object",
+        "properties": {
+          "debts": {
+            "$ref": "#/components/schemas/Debts"
+          },
+          "credits": {
+            "$ref": "#/components/schemas/Credits"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Director": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "givenName": {
+            "type": "string",
+            "nullable": true
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "socialSecurityNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "roleCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "nullable": true
+          },
+          "fromDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DistraintRepossessionClaim": {
+        "type": "object",
+        "properties": {
+          "orgNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "typeText": {
+            "type": "string",
+            "nullable": true
+          },
+          "comments": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FailResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FetchOffsetResult[Change]": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Change"
+            },
+            "nullable": true
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FetchOffsetResult[Company]": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Monitor.Company"
+            },
+            "nullable": true
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FetchOffsetResult[Portfolio]": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Portfolio"
+            },
+            "nullable": true
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Financial.Company": {
+        "type": "object",
+        "properties": {
+          "country": {
+            "$ref": "#/components/schemas/Country"
+          },
+          "orgNr": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FinancialKeyResult": {
+        "type": "object",
+        "properties": {
+          "fromDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "grossProfitMargin": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "profitMargin": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "riskBuffer": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "returnOnCapital": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "returnOnTotCapital": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "rateOfReturnTimes": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "returnOnWorkingCapital": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "returnOnTotalCapital": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "quickRatio": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "workingCapital": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "solidity": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "debtEquityRatio": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "degreeOfDebt": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "inventoryTurnover": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "capitalTurnover": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "turnoverPerEmployee": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FinancialStatement": {
+        "type": "object",
+        "properties": {
+          "netOperatingIncome": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "operatingResult": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "resultAfterFin": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "netProfitLoss": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totTurnoverAssets": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totFixedAssets": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totShortTermDebts": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totLongTermDebts": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totEquity": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totalEquityAndLiability": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "noEmployees": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FinancialStatements": {
+        "type": "object",
+        "properties": {
+          "fromDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "statement": {
+            "$ref": "#/components/schemas/FinancialStatement"
+          },
+          "profitAndLoss": {
+            "$ref": "#/components/schemas/ProfitAndLoss"
+          },
+          "balanceSheet": {
+            "$ref": "#/components/schemas/BalanceSheet"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Find.Company": {
+        "type": "object",
+        "properties": {
+          "orgNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "legalGroup": {
+            "type": "string",
+            "nullable": true
+          },
+          "legalGroupText": {
+            "type": "string",
+            "nullable": true
+          },
+          "town": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "coAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "faxNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "webAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "registrationDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "taxRegistered": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "findScore": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "safeNo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GroupStructure": {
+        "type": "object",
+        "properties": {
+          "orgNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "companyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ownedPercent": {
+            "type": "string",
+            "nullable": true
+          },
+          "closestGroupMotherOrgNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "groupMotherOrgNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "groupMotherName": {
+            "type": "string",
+            "nullable": true
+          },
+          "level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateUpdated": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "HistoricalDebtDetail": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "numberPublic": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "numberPrivate": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "totalBalance": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Info": {
+        "type": "object",
+        "properties": {
+          "orgNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "coAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "phonenumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "faxnumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "community": {
+            "type": "string",
+            "nullable": true
+          },
+          "county": {
+            "type": "string",
+            "nullable": true
+          },
+          "legalGroup": {
+            "type": "string",
+            "nullable": true
+          },
+          "legalGroupText": {
+            "type": "string",
+            "nullable": true
+          },
+          "registrationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "vatRegistered": {
+            "type": "boolean"
+          },
+          "vatNr": {
+            "type": "string",
+            "nullable": true
+          },
+          "vatStartdate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "statusCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusDateFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "town": {
+            "type": "string",
+            "nullable": true
+          },
+          "specialInformations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpecialInformation"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LanguageCode": {
+        "enum": [
+          "SV",
+          "NO",
+          "EN"
+        ],
+        "type": "string"
+      },
+      "Monitor.Company": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "legalGroup": {
+            "type": "string",
+            "nullable": true
+          },
+          "orgNr": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Owner": {
+        "type": "object",
+        "properties": {
+          "identificationNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "ownerType": {
+            "type": "string",
+            "nullable": true
+          },
+          "numberOfShares": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "ownerShares": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "ownershipStake": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "dateUpdated": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PageResult[Company]": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Find.Company"
+            },
+            "nullable": true
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PayrollTax": {
+        "type": "object",
+        "properties": {
+          "payrollDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "taxAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "registerDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Portfolio": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "$ref": "#/components/schemas/PortfolioType"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioSetting": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioType": {
+        "enum": [
+          "Manual",
+          "Auto"
+        ],
+        "type": "string"
+      },
+      "PrivateClaim": {
+        "type": "object",
+        "properties": {
+          "orgNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "paymentNoteType": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentNoteTypeText": {
+            "type": "string",
+            "nullable": true
+          },
+          "creditorOrgNr": {
+            "type": "string",
+            "nullable": true
+          },
+          "creditorName": {
+            "type": "string",
+            "nullable": true
+          },
+          "creditorForeign": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "comments": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PrivateClaimApplication": {
+        "type": "object",
+        "properties": {
+          "orgNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "typeText": {
+            "type": "string",
+            "nullable": true
+          },
+          "creditorOrgNr": {
+            "type": "string",
+            "nullable": true
+          },
+          "creditorName": {
+            "type": "string",
+            "nullable": true
+          },
+          "creditorForeign": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "comments": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "ProfitAndLoss": {
+        "type": "object",
+        "properties": {
+          "netSales": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "changeInventoryWorkInProgress": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "workPerformedOwnUseCapital": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "otherOppIncome": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "netOperatingIncome": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "rawMaterialConsumables": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "goodsResale": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "otherExtCosts": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "staffCosts": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "depreciationWriteDowns": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "itemAffectingComp": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "otherOppExpenses": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totOperatingExpenses": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "operatingResult": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "resultPartGroup": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "extInterestInc": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "finInterestGroupInc": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "otherFinInc": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "interestExpGroup": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "otherFinCosts": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "resultAfterFin": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "extraordinaryInc": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "extraordinaryExp": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "contributeGroup": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "contributeShareholder": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "otherAppropriations": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "tax": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "minorityInterestProfit": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "netProfitLoss": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PublicClaim": {
+        "type": "object",
+        "properties": {
+          "orgNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "paymentNoteType": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentNoteTypeText": {
+            "type": "string",
+            "nullable": true
+          },
+          "term": {
+            "type": "string",
+            "nullable": true
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Rating": {
+        "type": "object",
+        "properties": {
+          "level": {
+            "type": "string",
+            "nullable": true
+          },
+          "remarks": {
+            "$ref": "#/components/schemas/RatingCheck"
+          },
+          "fraud": {
+            "$ref": "#/components/schemas/RatingCheck"
+          },
+          "sanctions": {
+            "$ref": "#/components/schemas/RatingCheck"
+          },
+          "finance": {
+            "$ref": "#/components/schemas/RatingCheck"
+          },
+          "debtRating": {
+            "$ref": "#/components/schemas/RatingCheck"
+          },
+          "observations": {
+            "$ref": "#/components/schemas/RatingCheck"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RatingCheck": {
+        "type": "object",
+        "properties": {
+          "level": {
+            "type": "string",
+            "nullable": true
+          },
+          "indications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RatingIndication"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RatingIndication": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/CheckIndicationStatus"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegName": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "registrationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deRegistrationDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RelationTag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sign": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateUpdated": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SpecialInformation": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Unit": {
+        "type": "object",
+        "properties": {
+          "officeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "officeType": {
+            "type": "string",
+            "nullable": true
+          },
+          "coAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "town": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "faxNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "specialInformations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpecialInformation"
+            },
+            "nullable": true
+          },
+          "dateUpdated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "visitingAddress": {
+            "$ref": "#/components/schemas/UnitVisitingAddress"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UnitVisitingAddress": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "town": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePortfolio": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ValidationProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "Warning": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "transactionExternalId": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/WarningType"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "warningUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/WarningStatus"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WarningStatus": {
+        "enum": [
+          "NotProcessed",
+          "Active",
+          "Completed",
+          "CompletedWithAction",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "WarningType": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "X-Api-Key": {
+        "type": "apiKey",
+        "description": "Api key needed to access the endpoints. X-Api-Key: My api key",
+        "name": "X-Api-Key",
+        "in": "header"
+      },
+      "Bearer": {
+        "type": "http",
+        "description": "Please enter a valid token",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "X-Api-Key": [ ]
+    },
+    {
+      "Bearer": [ ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+meta {
+  name: List Invoices
+  type: http
+  seq: 9
+  tags: ["finance"]
+}
+
+get {
+  url: {{baseUrl}}/finance/invoices
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+tests {
+  test("200 ok", function() { expect(res.status).to.equal(200); });
+  test("contains created invoice", function() {
+    const ids = res.body.map(i => i.invoice_id);
+    expect(ids.includes('inv-4001')).to.equal(true);
+  });
+}

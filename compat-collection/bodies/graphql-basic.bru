@@ -1,0 +1,28 @@
+meta {
+  name: GraphQL basic
+  type: http
+  seq: 25
+}
+
+post {
+  url: {{graphqlUrl}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  {
+    country(code: "SE") {
+      code
+      name
+      capital
+    }
+  }
+}
+
+body:test {
+  expect(res.status).to.equal(200);
+  expect(res.body.data.country.code).to.equal("SE");
+}

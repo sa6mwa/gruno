@@ -1,0 +1,32 @@
+meta {
+  name: Load Container
+  type: http
+  seq: 4
+  tags: ["shipping"]
+}
+
+post {
+  url: {{baseUrl}}/shipments/{{shipmentId}}/load
+  body: json
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "container_id": "{{containerId}}",
+    "manifest": [
+      {"sku": "SKU1", "qty": 10},
+      {"sku": "SKU2", "qty": 5}
+    ]
+  }
+}
+
+tests {
+  test("200 ok", function() { expect(res.status).to.equal(200); });
+  test("loaded", function() { expect(res.body.status).to.equal('loaded'); });
+}

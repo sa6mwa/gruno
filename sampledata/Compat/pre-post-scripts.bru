@@ -1,0 +1,26 @@
+meta {
+  name: Compat Pre/Post Scripts
+  type: http
+  seq: 52
+  tags: [gruno, scripts]
+}
+
+get {
+  url: {{baseUrl}}/anything
+}
+
+script:pre-request {
+  req.headers['x-pre'] = 'yes';
+}
+
+script:post-response {
+  // noop; ensure runs
+  var u = res.body.url;
+}
+
+tests {
+  test("pre header echoed", function() {
+    expect(res.status).to.equal(200);
+    expect(res.body.headers['x-pre']).to.equal('yes');
+  });
+}

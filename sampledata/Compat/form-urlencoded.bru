@@ -1,0 +1,28 @@
+meta {
+  name: Compat Form Urlencoded
+  type: http
+  seq: 44
+  tags: [gruno, bodies]
+}
+
+post {
+  url: {{baseUrl}}/echo
+  body: formUrlEncoded
+  auth: none
+}
+
+body:form-urlencoded {
+  username: alice
+  password: wonder
+}
+
+headers {
+  Content-Type: application/x-www-form-urlencoded
+}
+
+tests {
+  test("form parsed", function() {
+    expect(res.status).to.equal(200);
+    expect(res.body.form.username).to.equal('alice');
+  });
+}

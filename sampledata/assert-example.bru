@@ -1,0 +1,24 @@
+meta {
+  name: Assert Block Example
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/echo
+  auth: none
+  body: json
+}
+
+body:json {
+  { "foo": "bar" }
+}
+
+assert {
+  res.status: eq 200
+  res.body.foo: eq bar
+}
+
+tests {
+  test("redundant", function() { expect(res.status).to.equal(200); });
+}

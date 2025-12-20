@@ -1,0 +1,24 @@
+meta {
+  name: Compat Multipart Form
+  type: http
+  seq: 45
+  tags: [gruno, bodies]
+}
+
+post {
+  url: {{baseUrl}}/echo
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  description: multipart-example
+  count: 3
+}
+
+tests {
+  test("multipart parsed", function() {
+    expect(res.status).to.equal(200);
+    expect(res.body.form.description).to.equal('multipart-example');
+  });
+}
