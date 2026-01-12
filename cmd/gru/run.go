@@ -21,9 +21,9 @@ import (
 
 func newRunCmd() *cobra.Command {
 	runCmd := &cobra.Command{
-		Use:   "run <folder|file>",
+		Use:   "run [folder|file]",
 		Short: "Execute .bru files",
-		Args:  cobra.ExactArgs(1),
+		Args:  cobra.MaximumNArgs(1),
 		RunE:  runE,
 	}
 
@@ -93,7 +93,10 @@ func newLogger(structured bool, level string, flagSet bool, caller bool, w io.Wr
 }
 
 func runE(cmd *cobra.Command, args []string) error {
-	target := args[0]
+	target := "."
+	if len(args) > 0 {
+		target = args[0]
+	}
 	envPath, _ := cmd.Flags().GetString("env")
 	varsList, _ := cmd.Flags().GetStringArray("var")
 	envVarList, _ := cmd.Flags().GetStringArray("env-var")

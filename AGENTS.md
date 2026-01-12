@@ -1,47 +1,78 @@
-# AGENTS
+# AGENTS.md
 
-Context & interfaces
-- `gruno.New(ctx)` returns the public `Gruno` interface; keep concrete types unexported.
-- Propagate `context.Context` through every call; avoid package-level state so multiple runners can coexist.
-- Public methods return max two values (payload + error). For extras, define small structs.
+You are collaborating with a highly opinionated Go architect. Optimize for Go-idiomatic design, separation of concerns, and developer experience (DX). Do NOT jump into implementation: propose options + tradeoffs first.
 
-Logging
-- Accept `pslog.Base` in the SDK; CLI defaults to `pslog.Logger` console colors, optional structured.
+## Workflow (mandatory)
+1. Restate goal + constraints.
+2. Propose 1–3 designs with tradeoffs.
+3. Get alignment before writing significant code.
+4. Implement in small, reviewable steps.
+5. Run quality gates (see below).
+6. Git commit messages must follow Conventional Commits: https://www.conventionalcommits.org/en/v1.0.0/
 
-Parsing / execution rules
-- Parser is tokenized recursive-descent; prefer small, explicit branches over regex-heavy parsing.
-- Supported blocks: meta (name, seq, tags, timeout, skip, script settings), headers, query, params:path, params:query, vars/vars:post-response, body types (json, xml, text, form-urlencoded, multipart-form, graphql + vars), auth none/basic/bearer, asserts, docs, tests, skip/tags.
-- Tag filtering: include/exclude respected before execution; aligns with Bru semantics.
-- Keep env/var expansion deterministic; error on unresolved `{{var}}` in URL before sending.
+## Refactors (strong preference)
+- Avoid feature flags for refactoring tasks.
+- Prefer clean refactors with a clear cutover:
+  - No lingering “legacy” implementations, structs, or parallel codepaths.
+  - Remove dead code and migrate call sites in the same change-set/sequence.
+- Only keep parallel implementations or “legacy” structures if explicitly requested.
 
-Sampledata & parity
-- Bruno CLI is the judge: any new sampledata must pass `bru run` before accepting.
-- Mock server lives in tests; extend it when adding new protocol/features to keep parity deterministic—do not bend runtime semantics to satisfy fixtures.
-- Retain the GitHub mini collection under `sampledata/GitHub/`; do not leak domain-specific names from external projects.
+## Architecture & packaging
+- Separation starts at the package boundary:
+  - Public API packages for exported surfaces.
+  - `internal/...` for non-exported implementation details.
+- If there are two or more variants/adapters of an implementation: **use an interface**.
+- Constructors:
+  - Provide a `New...` constructor for implementations.
+  - **Constructors must return the interface type, never a concrete type.**
+- Cyclic imports:
+  - If cyclic imports occur, extract core application functionality into a `core` package or subpackage
+    so both main/module code and subpackages can import it without cycles.
 
-CLI behaviour
-- Prefer fatal log on case failures instead of dumping Cobra help unless syntax errors.
-- Avoid adding new flags without wiring through to runner; mirror Bru where practical.
+## Public API shape (strong preference)
+- Inputs:
+  - If a user-facing function or interface method takes more than 4 parameters total (including `ctx context.Context`),
+    do not bloat the signature. Put the non-`ctx` inputs into a request/input struct instead (e.g. `FooRequest`).
+- Outputs:
+  - A user-facing function or interface method must return **no more than two values**: `(T, error)` (or `(Response, error)`).
+  - If more than one non-error value needs to be returned, the first return value must be a **response/result struct**
+    that carries all outputs (e.g. `FooResponse`), and the second return value is `error`.
 
-Testing
-- Maintain integration tests: `TestRunFolderSampledata` (gru) and `TestBruCLISingleFile` (bru on our samples).
-- Add regression tests for every bug reproduced via external collections before fixing.
+## Documentation & generators
+- Every package must have a `doc.go` with standard Go package comment documentation.
+- Code generation:
+  - If generators are not tightly bound to a single package: put `generate.go` at the top-level module folder.
+  - If tightly bound to a single package: put `generate.go` in that package folder (and place any generator runner `main` packages underneath as appropriate).
 
-Future work pointers
-- Reporters (`--output/--format`, json/junit/html), execution controls (`--tests-only`, `--delay`, `--bail`, recursive toggle), TLS/proxy flags, data-driven iterations.
-- Import command: `gru import openapi|wsdl` to generate Bruno collections (see BACKLOG).
+## Quality gates (always run before “done”)
+- `go test ./...`
+- `go vet ./...`
+- `golint ./...`
+- `golangci-lint run ./...`
 
-Style
-- ASCII by default; minimal comments except where intent isn’t obvious, but always comment exported types/functions.
-- Do not revert user changes; avoid destructive git commands.
+## Repo hygiene
+- If `.golangci.yml` does not exist in repo root, create and seed it with the contents below.
 
-Go
-- Always comment exported types/funcs thoroughly.
-- Fix golint-style comment warnings on exported identifiers; keep public API lint-clean.
-- Run the following after tests pass and resolve any issues:
-  * golint ./...
-  * go vet ./...
-  * modernize ./...
-- Run `golangci-lint run ./...`, but only resolve issues that are relevant like comments, ctx as first argument if ctx is used, etc. Checking return errors of certain writes where it's not relevant is not something we should focus on resolving.
-- For a clean (no-error) lint run that only suppresses the currently acceptable findings, use:
-  * `golangci-lint run -c ./.golangci.yml`
+```yaml
+version: "2"
+linters:
+  exclusions:
+    rules:
+      # errcheck noise we explicitly accept for now
+      - linters: [errcheck]
+        path: ".*_test\\.go"
+      - linters: [errcheck]
+        text: "resp.Body.Close"
+      - linters: [errcheck]
+        text: "fmt.Fprint"
+      # staticcheck style nits we don't want to chase
+      - linters: [staticcheck]
+        text: "QF1003"
+      - linters: [staticcheck]
+        text: "S1017"
+      - linters: [staticcheck]
+        text: "QF1001"
+      - linters: [staticcheck]
+        text: "S1009"
+```
+

@@ -11,9 +11,8 @@ test:
 build: test-short
 	go build -trimpath -ldflags="-s -w" -o $(BIN) ./cmd/gru
 
-install: build
+install:
 	install -m 0755 $(BIN) $(INSTALL_PATH)/gru
 
-.PHONY: test-short
 test-short:
 	go test -short -count=1 ./...
