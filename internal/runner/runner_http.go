@@ -74,8 +74,13 @@ func buildHTTPRequest(p parsedFile, exp *expander) (*http.Request, error) {
 				p.Request.Headers["Content-Type"] = "application/json"
 			}
 		case "form-urlencoded":
-			vals := urlValuesFromMap(p.Request.Body.Fields, exp)
-			bodyReader = strings.NewReader(vals.Encode())
+			ordered := orderedFormFields(p.Request.Body.Raw)
+			if len(ordered) > 0 {
+				bodyReader = strings.NewReader(encodeFormFields(ordered, exp))
+			} else {
+				vals := urlValuesFromMap(p.Request.Body.Fields, exp)
+				bodyReader = strings.NewReader(vals.Encode())
+			}
 			if p.Request.Headers == nil {
 				p.Request.Headers = map[string]string{}
 			}
@@ -83,7 +88,14 @@ func buildHTTPRequest(p parsedFile, exp *expander) (*http.Request, error) {
 		case "multipart-form":
 			var buf bytes.Buffer
 			w := multipart.NewWriter(&buf)
-			for k, v := range p.Request.Body.Fields {
+			ordered := orderedFormFields(p.Request.Body.Raw)
+			if len(ordered) == 0 {
+				for k, v := range p.Request.Body.Fields {
+					ordered = append(ordered, formField{key: k, value: v})
+				}
+			}
+			for _, field := range ordered {
+				k, v := field.key, field.value
 				part := parseMultipartValue(v)
 				if part.isFile {
 					f, err := os.Open(exp.expand(part.value))
@@ -92,12 +104,12 @@ func buildHTTPRequest(p parsedFile, exp *expander) (*http.Request, error) {
 					}
 					defer f.Close()
 					h := make(textproto.MIMEHeader)
-				h.Set("Content-Disposition", fmt.Sprintf(`form-data; name="%s"; filename="%s"`, k, filepath.Base(part.value)))
-				if part.contentType != "" {
-					h.Set("Content-Type", part.contentType)
-				}
-				if part.contentID != "" {
-					h.Set("Content-ID", part.contentID)
+					h.Set("Content-Disposition", fmt.Sprintf(`form-data; name="%s"; filename="%s"`, k, filepath.Base(part.value)))
+					if part.contentType != "" {
+						h.Set("Content-Type", part.contentType)
+					}
+					if part.contentID != "" {
+						h.Set("Content-ID", part.contentID)
 					}
 					pw, err := w.CreatePart(h)
 					if err != nil {
@@ -109,12 +121,12 @@ func buildHTTPRequest(p parsedFile, exp *expander) (*http.Request, error) {
 					continue
 				}
 				// string part (may carry explicit content-type or content-id)
-			if part.contentType != "" || part.contentID != "" {
-				h := make(textproto.MIMEHeader)
-				h.Set("Content-Disposition", fmt.Sprintf(`form-data; name="%s"`, k))
-				if part.contentType != "" {
-					h.Set("Content-Type", part.contentType)
-				}
+				if part.contentType != "" || part.contentID != "" {
+					h := make(textproto.MIMEHeader)
+					h.Set("Content-Disposition", fmt.Sprintf(`form-data; name="%s"`, k))
+					if part.contentType != "" {
+						h.Set("Content-Type", part.contentType)
+					}
 					if part.contentID != "" {
 						h.Set("Content-ID", part.contentID)
 					}
@@ -184,6 +196,44 @@ func urlValuesFromMap(fields map[string]string, exp *expander) url.Values {
 	return vals
 }
 
+type formField struct {
+	key   string
+	value string
+}
+
+func orderedFormFields(raw string) []formField {
+	lines := strings.Split(raw, "\n")
+	fields := make([]formField, 0, len(lines))
+	for _, l := range lines {
+		trimmed := strings.TrimSpace(l)
+		if trimmed == "" || strings.HasPrefix(trimmed, "//") || strings.HasPrefix(trimmed, "~") {
+			continue
+		}
+		kv := strings.SplitN(trimmed, ":", 2)
+		if len(kv) != 2 {
+			continue
+		}
+		key := strings.TrimSpace(kv[0])
+		val := strings.TrimSpace(kv[1])
+		val = strings.TrimSuffix(val, ",")
+		fields = append(fields, formField{key: key, value: val})
+	}
+	return fields
+}
+
+func encodeFormFields(fields []formField, exp *expander) string {
+	if len(fields) == 0 {
+		return ""
+	}
+	parts := make([]string, 0, len(fields))
+	for _, field := range fields {
+		key := exp.expand(field.key)
+		val := exp.expand(field.value)
+		parts = append(parts, url.QueryEscape(key)+"="+url.QueryEscape(val))
+	}
+	return strings.Join(parts, "&")
+}
+
 type multipartPart struct {
 	isFile      bool
 	value       string
@@ -192,8 +242,9 @@ type multipartPart struct {
 }
 
 // parseMultipartValue supports syntaxes:
-//   @/path/to/file;type=application/octet-stream;cid=<attach1>
-//   raw text;type=application/xop+xml;cid=<rootpart>
+//
+//	@/path/to/file;type=application/octet-stream;cid=<attach1>
+//	raw text;type=application/xop+xml;cid=<rootpart>
 func parseMultipartValue(raw string) multipartPart {
 	p := multipartPart{value: raw}
 	parts := strings.Split(raw, ";")

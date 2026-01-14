@@ -20,6 +20,9 @@ go build -o bin/gru ./cmd/gru
 # run sample collection (uses bundled env)
 gru run sampledata --env sampledata/environments/local.bru -r
 
+# run from another directory (CI-friendly)
+gru -C sampledata run --env environments/local.bru -r
+
 # run only Compat folder with tag include
 gru run sampledata/Compat --env sampledata/environments/local.bru --tags smoke
 
@@ -98,6 +101,8 @@ Import defaults:
 - TLS client certs: JSON via `--client-cert-config` accepts `{ "cert": "...", "key": "..." }` or Bruno-style domain entries; first valid cert/key is used.
 
 ## CLI cheat sheet
+- **Working dir**: `-C/--directory <path>` changes to a directory before running the command (useful for CI and parity with Bru's "cd then run" flow).
+- **Version**: `gru version` prints the module name and version (e.g., `pkt.systems/gruno v1.2.3`).
 - **Env/vars**: `--env <file>` (relative names resolve to `environments/<name>.bru`), inline overrides via `--var key=value` or `--env-var`.
 - **Filtering**: `--tags`, `--exclude-tags`, `--tests-only`.
 - **Flow control**: `--delay`, `--bail`, `-r/--recursive`, per-request `--timeout`.

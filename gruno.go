@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"pkt.systems/gruno/internal/runner"
+	"pkt.systems/version"
 )
 
 // Public type aliases to runner package
@@ -43,3 +44,12 @@ var (
 func New(ctx context.Context, opts ...Option) (Gruno, error) {
 	return runner.New(ctx, opts...)
 }
+
+// Version returns the current module version (best effort).
+func Version() string {
+	return moduleVersion(modulePath)
+}
+
+const modulePath = "pkt.systems/gruno"
+
+var moduleVersion = version.ModuleVersion

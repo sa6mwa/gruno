@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"pkt.systems/pslog"
+	"pkt.systems/version"
 )
 
 func newRootCmd() *cobra.Command {
@@ -16,6 +17,12 @@ func newRootCmd() *cobra.Command {
 		SilenceUsage:  true,
 		SilenceErrors: true,
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+			dir, _ := cmd.Flags().GetString("directory")
+			if dir != "" {
+				if err := os.Chdir(dir); err != nil {
+					return fmt.Errorf("chdir %q: %w", dir, err)
+				}
+			}
 			structured, _ := cmd.Flags().GetBool("structured")
 			levelStr, _ := cmd.Flags().GetString("log-level")
 			caller, _ := cmd.Flags().GetBool("log-caller")
@@ -31,8 +38,12 @@ func newRootCmd() *cobra.Command {
 	}
 
 	addLoggingFlags(root.PersistentFlags())
+	root.PersistentFlags().StringP("directory", "C", "", "Change to directory before running the command")
+
+	version.SetDefaultModule("pkt.systems/gruno")
 	root.AddCommand(newRunCmd())
 	root.AddCommand(newImportCmd())
+	root.AddCommand(newVersionCmd())
 	return root
 }
 
