@@ -1,6 +1,6 @@
 module pkt.systems/gruno
 
-go 1.25.3
+go 1.24.0
 
 require (
 	github.com/dop251/goja v0.0.0-20251201205617-2bb4c724c0f9
