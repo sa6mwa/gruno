@@ -51,6 +51,9 @@ func TestRunFolderSampledata(t *testing.T) {
 
 // Judge-jury: run Bru CLI on the same sample; Bru is source of truth.
 func TestBruCLISingleFile(t *testing.T) {
+	if testing.Short() {
+		t.Skip("short mode: skipping bru parity")
+	}
 	if _, err := exec.LookPath("bru"); err != nil {
 		t.Fatalf("bru CLI not found in PATH")
 	}

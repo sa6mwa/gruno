@@ -13,6 +13,9 @@ import (
 
 // Parity against stored OpenAPI specs (bru import vs gru import).
 func TestOpenAPILocalParity(t *testing.T) {
+	if testing.Short() {
+		t.Skip("short mode: skipping bru parity")
+	}
 	if _, err := exec.LookPath("bru"); err != nil {
 		t.Skip("bru CLI not installed")
 	}

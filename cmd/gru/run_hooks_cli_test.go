@@ -9,6 +9,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
@@ -38,11 +39,7 @@ tests {
 		t.Fatal(err)
 	}
 
-	script := filepath.Join(tmp, "hook.sh")
-	body := fmt.Sprintf("#!/bin/sh\necho HOOK-$GRU_HOOK_PHASE >>%s\necho HOOK-$GRU_HOOK_PHASE\n", hookOut)
-	if err := os.WriteFile(script, []byte(body), 0o755); err != nil {
-		t.Fatal(err)
-	}
+	script := writeHookScript(t, tmp, hookOut)
 
 	cmd := newRunCmd()
 	args := []string{
@@ -92,10 +89,30 @@ tests {
 		t.Fatalf("hooks did not run, file content: %q", content)
 	}
 
-	if !strings.Contains(out, "HOOK-pre") || !strings.Contains(out, "HOOK-post") {
-		t.Fatalf("expected hook output in logs, got %q", out)
-	}
 	if !strings.Contains(out, "\"msg\":\"hook\"") {
 		t.Fatalf("expected hook log line, got %q", out)
 	}
+	if !strings.Contains(out, "\"phase\":\"pre\"") {
+		t.Fatalf("expected hook pre log line, got %q", out)
+	}
+}
+
+func writeHookScript(t *testing.T, dir, hookOut string) string {
+	t.Helper()
+	if runtime.GOOS == "windows" {
+		script := filepath.Join(dir, "hook.cmd")
+		body := fmt.Sprintf("@echo off\r\n"+
+			"echo HOOK-%%GRU_HOOK_PHASE%% >>%s\r\n"+
+			"echo HOOK-%%GRU_HOOK_PHASE%%\r\n", hookOut)
+		if err := os.WriteFile(script, []byte(body), 0o644); err != nil {
+			t.Fatal(err)
+		}
+		return script
+	}
+	script := filepath.Join(dir, "hook.sh")
+	body := fmt.Sprintf("#!/bin/sh\necho HOOK-$GRU_HOOK_PHASE >>%s\necho HOOK-$GRU_HOOK_PHASE\n", hookOut)
+	if err := os.WriteFile(script, []byte(body), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	return script
 }

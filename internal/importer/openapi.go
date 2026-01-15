@@ -13,6 +13,7 @@ import (
 	"path"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"slices"
 	"sort"
 	"strings"
@@ -652,7 +653,16 @@ func fetchExternal(u *url.URL, client *http.Client, opts Options) ([]byte, error
 		if !allowLocalRef(u, opts) {
 			return nil, fmt.Errorf("file ref blocked: %s (use --allow-file-refs)", u.String())
 		}
-		return os.ReadFile(u.Path)
+		path := localPathFromFileURL(u)
+		return os.ReadFile(path)
+	}
+
+	if (u.Scheme == "http" || u.Scheme == "https") && opts.AllowFileRefs {
+		if path, ok := filePathFromHTTP(u); ok {
+			if _, err := os.Stat(path); err == nil {
+				return os.ReadFile(path)
+			}
+		}
 	}
 
 	// http/https
@@ -665,6 +675,44 @@ func fetchExternal(u *url.URL, client *http.Client, opts Options) ([]byte, error
 		}
 	}
 	return fetchWithClient(u.String(), client)
+}
+
+func localPathFromFileURL(u *url.URL) string {
+	path := u.Path
+	if runtime.GOOS == "windows" {
+		if u.Host != "" && u.Scheme == "file" {
+			drive := u.Host
+			if len(drive) == 1 {
+				drive += ":"
+			}
+			path = drive + path
+		}
+		if len(path) >= 3 && path[0] == '/' && path[2] == ':' {
+			path = path[1:]
+		}
+		path = filepath.FromSlash(path)
+	}
+	return path
+}
+
+func filePathFromHTTP(u *url.URL) (string, bool) {
+	if u == nil {
+		return "", false
+	}
+	path := strings.TrimPrefix(u.Path, "/")
+	if path == "" {
+		return "", false
+	}
+	lower := strings.ToLower(path)
+	if strings.HasPrefix(lower, "file:/") {
+		if parsed, err := url.Parse(path); err == nil && parsed.Scheme == "file" {
+			return localPathFromFileURL(parsed), true
+		}
+	}
+	if runtime.GOOS == "windows" && len(path) >= 3 && path[1] == ':' {
+		return filepath.FromSlash(path), true
+	}
+	return "", false
 }
 
 func sameOrigin(ref *url.URL, source string) bool {
@@ -984,6 +1032,17 @@ func examplePayload(v any, sourceDir string, opts Options, mediaType string) str
 	isXML := strings.Contains(strings.ToLower(mediaType), "xml")
 	// If v is a string pointing to a URL or file, load it.
 	if s, ok := v.(string); ok {
+		if strings.HasPrefix(s, "/") && opts.BaseLocation != nil && (opts.BaseLocation.Scheme == "http" || opts.BaseLocation.Scheme == "https") {
+			if body := loadExternalExample(s, sourceDir, opts); body != "" {
+				if !isXML && json.Valid([]byte(body)) {
+					var buf bytes.Buffer
+					if err := json.Indent(&buf, []byte(body), "", "  "); err == nil {
+						return buf.String()
+					}
+				}
+				return body
+			}
+		}
 		if strings.HasPrefix(s, "http://") || strings.HasPrefix(s, "https://") || strings.HasPrefix(s, "file://") || fileExists(filepath.Join(sourceDir, s)) || filepath.IsAbs(s) {
 			if body := loadExternalExample(s, sourceDir, opts); body != "" {
 				if !isXML && json.Valid([]byte(body)) {

@@ -2,10 +2,12 @@ package importer
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
@@ -100,11 +102,13 @@ func TestOpenAPIRemoteFileRefBlocked(t *testing.T) {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/spec.json", func(w http.ResponseWriter, r *http.Request) {
-		_, _ = w.Write([]byte(`{
+		ref := fileRefURL(secret)
+		payload := fmt.Sprintf(`{
   "openapi": "3.0.3",
   "info": {"title": "Bad", "version": "1.0"},
-  "paths": {"/bad": {"get": {"responses": {"200": {"description": "ok", "content": {"application/json": {"schema": {"$ref": "file://` + secret + `"}}}}}}}}
-}`))
+  "paths": {"/bad": {"get": {"responses": {"200": {"description": "ok", "content": {"application/json": {"schema": {"$ref": %q}}}}}}}}
+}`, ref)
+		_, _ = w.Write([]byte(payload))
 	})
 	srv := httptest.NewServer(mux)
 	defer srv.Close()
@@ -148,6 +152,15 @@ func TestOpenAPILocalFileRefEscapesBlocked(t *testing.T) {
 	if err := ImportOpenAPI(context.Background(), Options{Source: specGood, OutputDir: filepath.Join(tmp, "out2"), GenerateTests: true}); err != nil {
 		t.Fatalf("expected sibling ref to pass: %v", err)
 	}
+}
+
+func fileRefURL(path string) string {
+	p := filepath.ToSlash(path)
+	if runtime.GOOS == "windows" {
+		p = strings.TrimPrefix(p, "/")
+		return "file:///" + p
+	}
+	return "file://" + p
 }
 
 // Ensure local relative refs resolve without opt-in.

@@ -65,5 +65,5 @@ gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
 gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
 pkt.systems/pslog v0.13.0 h1:WlvThje0apw2jepMOBX6x9r1e2cBZSYsdVH4v2iyk3Y=
 pkt.systems/pslog v0.13.0/go.mod h1:S+5Ri+lfl32YYEnzTbMoLWQCY1B+OvydAtgItH+/rPQ=
-pkt.systems/version v0.2.0 h1:X4adzc02m2cuOHSfcsP/csTqsAy8oJSFrAGhqKXlOYI=
-pkt.systems/version v0.2.0/go.mod h1:hGilHWHrgGXCkYoENAYOSVmvgwVTamfaj5DdcyG9GTA=
+pkt.systems/version v0.4.0 h1:UBIdsvKM3Lrzk4c7RtzhBVbmYt37TfzmXOiDZ/LlsPg=
+pkt.systems/version v0.4.0/go.mod h1:ktfpP3nZ1t2/Ua0kYCVksBpP6Za+OSMJ3O/IWzSf5Ak=

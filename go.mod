@@ -9,7 +9,7 @@ require (
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/pflag v1.0.6
 	pkt.systems/pslog v0.13.0
-	pkt.systems/version v0.2.0
+	pkt.systems/version v0.4.0
 )
 
 require (

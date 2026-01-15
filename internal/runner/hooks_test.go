@@ -7,6 +7,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 	"time"
@@ -83,11 +84,7 @@ tests {
 func TestExternalHooksRunAndLog(t *testing.T) {
 	tmp := t.TempDir()
 	hookOut := filepath.Join(tmp, "hook.out")
-	script := filepath.Join(tmp, "hook.sh")
-	scriptBody := "#!/bin/sh\necho \"$GRU_HOOK_PHASE $GRU_STATUS $GRU_FILE\" >>" + hookOut + "\n"
-	if err := os.WriteFile(script, []byte(scriptBody), 0o755); err != nil {
-		t.Fatal(err)
-	}
+	script := writeRunnerHookScript(t, tmp, hookOut)
 
 	buf := &bytes.Buffer{}
 	r := &runner{logger: pslog.NewStructured(buf)}
@@ -98,10 +95,10 @@ func TestExternalHooksRunAndLog(t *testing.T) {
 	}
 	res := CaseResult{Passed: true, Status: 200, Duration: time.Millisecond}
 
-	if err := r.runExternalHook(context.Background(), "pre", []string{script}, file, nil); err != nil {
+	if err := r.runExternalHook(context.Background(), "pre", hookCommand(script), file, nil); err != nil {
 		t.Fatalf("pre hook: %v", err)
 	}
-	if err := r.runExternalHook(context.Background(), "post", []string{script}, file, &res); err != nil {
+	if err := r.runExternalHook(context.Background(), "post", hookCommand(script), file, &res); err != nil {
 		t.Fatalf("post hook: %v", err)
 	}
 
@@ -126,20 +123,60 @@ get { url: http://127.0.0.1:0 }
 		t.Fatal(err)
 	}
 
-	script := filepath.Join(tmp, "fail.sh")
-	if err := os.WriteFile(script, []byte("#!/bin/sh\nexit 2\n"), 0o755); err != nil {
-		t.Fatal(err)
-	}
+	script := writeFailHookScript(t, tmp)
 
 	g, err := New(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	_, err = g.RunFolder(context.Background(), tmp, RunOptions{PreHookCmd: []string{script}})
+	_, err = g.RunFolder(context.Background(), tmp, RunOptions{PreHookCmd: hookCommand(script)})
 	if err == nil {
 		t.Fatalf("expected hook error")
 	}
+}
+
+func writeRunnerHookScript(t *testing.T, dir, hookOut string) string {
+	t.Helper()
+	if runtime.GOOS == "windows" {
+		script := filepath.Join(dir, "hook.cmd")
+		body := "@echo off\r\n" +
+			"echo %GRU_HOOK_PHASE% %GRU_STATUS% %GRU_FILE% >>" + hookOut + "\r\n"
+		if err := os.WriteFile(script, []byte(body), 0o644); err != nil {
+			t.Fatal(err)
+		}
+		return script
+	}
+	script := filepath.Join(dir, "hook.sh")
+	body := "#!/bin/sh\necho \"$GRU_HOOK_PHASE $GRU_STATUS $GRU_FILE\" >>" + hookOut + "\n"
+	if err := os.WriteFile(script, []byte(body), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	return script
+}
+
+func writeFailHookScript(t *testing.T, dir string) string {
+	t.Helper()
+	if runtime.GOOS == "windows" {
+		script := filepath.Join(dir, "fail.cmd")
+		body := "@echo off\r\nexit /b 2\r\n"
+		if err := os.WriteFile(script, []byte(body), 0o644); err != nil {
+			t.Fatal(err)
+		}
+		return script
+	}
+	script := filepath.Join(dir, "fail.sh")
+	if err := os.WriteFile(script, []byte("#!/bin/sh\nexit 2\n"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	return script
+}
+
+func hookCommand(script string) []string {
+	if runtime.GOOS == "windows" {
+		return []string{"cmd.exe", "/C", script}
+	}
+	return []string{script}
 }
 
 func TestHookInfoFallbackSeqTags(t *testing.T) {
